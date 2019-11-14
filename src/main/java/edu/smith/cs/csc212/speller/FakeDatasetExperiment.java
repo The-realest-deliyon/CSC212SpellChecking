@@ -1,8 +1,10 @@
 package edu.smith.cs.csc212.speller;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.TreeSet;
 
 /**
@@ -37,8 +39,28 @@ public class FakeDatasetExperiment {
 	public static List<String> createMixedDataset(List<String> yesWords, int numSamples, double fractionYes) {
 		// Hint to the ArrayList that it will need to grow to numSamples size:
 		List<String> output = new ArrayList<>(numSamples);
-		// TODO: select numSamples * fractionYes words from yesWords; create the rest as
-		// no words.
+		
+		for (int i=0; i < (numSamples * fractionYes); i++) {
+			Random rand = new Random();
+			int index = rand.nextInt(yesWords.size());
+			String string = yesWords.get(index);
+			output.add(string);
+		}
+		List<String> noWord = new ArrayList<>();
+		for(String word: yesWords) {
+			String word1 = word + "xyz";
+			noWord.add(word1);
+		}
+		for (int i=0; i < (numSamples * (1-fractionYes)); i++) {
+			Random rand = new Random();
+			int index = rand.nextInt(noWord.size());
+			String string = yesWords.get(index);
+			output.add(string);
+		}
+		
+		//initialize an empty array called no words
+		//and for every word in our yes words, we update the word 
+		//add said word into the no-word list.
 		return output;
 	}
 

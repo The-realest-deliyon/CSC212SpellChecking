@@ -33,7 +33,7 @@ public class CheckSpelling {
 	 * This method looks for all the words in a dictionary.
 	 * @param words - the "queries"
 	 * @param dictionary - the data structure.
-	 */
+	 */ 
 	public static void timeLookup(List<String> words, Collection<String> dictionary) {
 		long startLookup = System.nanoTime();
 		
@@ -60,17 +60,60 @@ public class CheckSpelling {
 		List<String> listOfWords = loadDictionary();
 		
 		// --- Create a bunch of data structures for testing:
+		
+		//TreeSet
+		long startTreeSet = System.nanoTime();
 		TreeSet<String> treeOfWords = new TreeSet<>(listOfWords);
+		long endTreeSet = System.nanoTime();
+		System.out.println("TreeSet takes" + ( endTreeSet-startTreeSet)/1e9);
+		
+		//TreeSet with a for loop
+		long startTreeSet2 = System.nanoTime();
+		TreeSet<String> treeofWords2 = new TreeSet<>(listOfWords);
+		for (String w : listOfWords) {
+			treeofWords2.add(w);
+		}
+		long endTreeSet2 = System.nanoTime();
+		System.out.println("TreeSet For Loop takes" + ( endTreeSet2-startTreeSet2)/1e9);
+		
+		//HashSet
+		long startHash = System.nanoTime();
 		HashSet<String> hashOfWords = new HashSet<>(listOfWords);
+		long endHash = System.nanoTime();
+		System.out.println("HashSet takes" + ( endHash-startHash)/1e9);
+		
+		//HashSet with a for loop
+		long startHash2 = System.nanoTime();
+		HashSet<String> hashOfWords2 = new HashSet<>(listOfWords);
+		for (String w : listOfWords) {
+			hashOfWords2.add(w);
+		}
+		long endHash2 = System.nanoTime();
+		System.out.println("HashSet For Loop takes" + ( endHash2-startHash2)/1e9);
+		
+		//Sorted
+		long startSorted = System.nanoTime();
 		SortedStringListSet bsl = new SortedStringListSet(listOfWords);
+		long endSorted = System.nanoTime();
+		System.out.println("SortedStringListSet takes" + ( endSorted - startSorted)/1e9);
+		
+		//CharTrie
+		long startChar = System.nanoTime();
 		CharTrie trie = new CharTrie();
 		for (String w : listOfWords) {
 			trie.insert(w);
 		}
+		long endChar = System.nanoTime();
+		System.out.println("CharTrie takes" + ( endChar - startChar)/1e9);
+		
+		//LLHash
+		long startLL =System.nanoTime();
 		LLHash hm100k = new LLHash(100000);
 		for (String w : listOfWords) {
 			hm100k.add(w);
 		}
+		long endLL = System.nanoTime();
+		System.out.println("LLHash takes" + ( endLL - startLL)/1e9);
 		
 		// --- Make sure that every word in the dictionary is in the dictionary:
 		//     This feels rather silly, but we're outputting timing information!
