@@ -55,24 +55,45 @@ public class SortedStringListSet extends AbstractSet<String> {
 	 */
 	private int binarySearch(String query, int start, int end) {
 		// TODO: replace this with your own binary search.
-		int middle = (start + end) / 2;
+		int middle = (int)Math.floor(start + end) / 2;
 		if (start < end) {
 			if (data.get(middle).equals(query)) {
-				int cond1 = binarySearch(query, start, middle);
-				if (cond1 != -1) {
-					return cond1;
-				} else {
-					int cond2 = binarySearch(query, middle + 1, end);
-					if (cond2 != -1) {
-						return cond2;
+				return middle;
+			} else {
+				if (query.compareTo(data.get(middle)) < 0) {
+					int cond1 = binarySearch(query, start, middle);
+					if (cond1 != -1) {
+						return cond1;
+					} else {
+						int cond2 = binarySearch(query, middle + 1, end);
+						if (cond2 != -1) {
+							return cond2;
+						}
+
 					}
 
 				}
 			}
+			
 		}
+		//return Collections.binarySearch(this.data.subList(start, end), query);
 		return -1;
-		// return Collections.binarySearch(this.data.subList(start, end), query);
 
+	}
+	
+	public static void main(String[] args) {
+		List <String> runTest = new ArrayList<>();
+		runTest.add("One");
+		runTest.add("Three");
+		runTest.add("Four");
+		runTest.add("Deli");
+		SortedStringListSet test = new SortedStringListSet(runTest);
+		
+		System.out.println(test.binarySearch("One", 0, test.data.size()));
+		System.out.println(test.binarySearch("See", 0, test.data.size()));
+		System.out.println(test.binarySearch("Food", 0, test.data.size()));
+		System.out.println(test.binarySearch("Four", 0, test.data.size()));
+		System.out.println(test.binarySearch("Deli", 0, test.data.size()));
 	}
 
 	/**
